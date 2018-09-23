@@ -1,4 +1,6 @@
-React client TODO: find this source
+## Dependencies
+Node.js and NPM `brew install node`
+React client `npm install -g create-react-app`
 Api server express.js  TODO: find this source
 
 Database https://hub.docker.com/_/postgres/  
