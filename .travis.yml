@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t rianaferreira/custom-react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run rianaferreira/custom-react-test npm test -- --coverage
+
+after_success:
+  - docker build -t rianaferreira/multi-container-client ./client
+  - docker build -t rianaferreira/multi-container-nginx ./nginx
+  - docker build -t rianaferreira/multi-container-api ./server
+  - docker build -t rianaferreira/multi-container-worker ./worker
+  # Log into docker CLI with envs from TravisCi
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push the images to DockerHub
+  - docker push rianaferreira/multi-container-client
+  - docker push rianaferreira/multi-container-nginx
+  - docker push rianaferreira/multi-container-api
+  - docker push rianaferreira/multi-container-worker
