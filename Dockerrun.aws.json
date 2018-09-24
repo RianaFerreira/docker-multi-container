@@ -1,0 +1,36 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "rianaferreira/multi-container-client",
+      "hostname": "client",
+      "essential": true
+    },
+    {
+      "name": "nginx",
+      "image": "rianaferreira/multi-container-nginx",
+      "hostname": "proxy",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["client", "server"]
+    },
+    {
+      "name": "server",
+      "image": "rianaferreira/multi-container-api",
+      "hostname": "api",
+      "essential": false
+    },
+    {
+      "name": "worker",
+      "image": "rianaferreira/multi-container-worker",
+      "hostname": "worker",
+      "essential": false
+    }
+  ]
+}
